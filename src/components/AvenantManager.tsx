@@ -120,7 +120,7 @@ export function AvenantManager({ employee, onSelectAvenant, selectedAvenantId }:
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium text-gray-900">
-                    {new Date(avenant.period_start).toLocaleDateString('fr-FR')} - {new Date(avenant.period_end).toLocaleDateString('fr-FR')}
+                    {new Date(avenant.period_start).toLocaleDateString('fr-FR')} - {avenant.period_end ? new Date(avenant.period_end).toLocaleDateString('fr-FR') : 'En cours'}
                   </p>
                   {avenant.description && (
                     <p className="text-sm text-gray-600 mt-1">{avenant.description}</p>
@@ -171,11 +171,10 @@ export function AvenantManager({ employee, onSelectAvenant, selectedAvenantId }:
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Date de fin
+                  Date de fin (optionnel)
                 </label>
                 <input
                   type="date"
-                  required
                   value={formData.period_end}
                   onChange={(e) => setFormData({ ...formData, period_end: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"

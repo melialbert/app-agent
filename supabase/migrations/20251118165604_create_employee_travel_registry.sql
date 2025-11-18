@@ -15,7 +15,7 @@
       - `id` (uuid, clé primaire)
       - `employee_id` (uuid, référence vers employees)
       - `period_start` (date) - Début de période
-      - `period_end` (date) - Fin de période
+      - `period_end` (date, optionnel) - Fin de période
       - `description` (text) - Description de l'avenant
       - `created_at` (timestamptz)
       
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS avenants (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   employee_id uuid NOT NULL REFERENCES employees(id) ON DELETE CASCADE,
   period_start date NOT NULL,
-  period_end date NOT NULL,
+  period_end date,
   description text DEFAULT '',
   created_at timestamptz DEFAULT now()
 );
