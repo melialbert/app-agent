@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase, type TravelRecord, type RouteSegment, type Avenant, type Employee } from '../lib/supabase';
-import { Plus, Trash2, Calendar, TrendingUp, FileDown } from 'lucide-react';
+import { Plus, Trash2, Calendar, TrendingUp, FileDown, Edit2 } from 'lucide-react';
 import { TravelRecordForm } from './TravelRecordForm';
 
 interface TravelRecordsViewProps {
@@ -16,6 +16,7 @@ export function TravelRecordsView({ avenant, employee }: TravelRecordsViewProps)
   const [records, setRecords] = useState<TravelRecordWithSegments[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
+  const [editingRecord, setEditingRecord] = useState<TravelRecordWithSegments | null>(null);
 
   useEffect(() => {
     loadRecords();
@@ -187,7 +188,10 @@ export function TravelRecordsView({ avenant, employee }: TravelRecordsViewProps)
                 Exporter
               </button>
               <button
-                onClick={() => setShowForm(true)}
+                onClick={() => {
+                  setEditingRecord(null);
+                  setShowForm(true);
+                }}
                 className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
                 <Plus className="w-4 h-4" />
@@ -232,7 +236,10 @@ export function TravelRecordsView({ avenant, employee }: TravelRecordsViewProps)
             <Calendar className="w-12 h-12 mx-auto mb-3 text-gray-400" />
             <p>Aucun déplacement enregistré</p>
             <button
-              onClick={() => setShowForm(true)}
+              onClick={() => {
+                setEditingRecord(null);
+                setShowForm(true);
+              }}
               className="mt-4 text-blue-600 hover:text-blue-700 font-medium"
             >
               Ajouter le premier déplacement
@@ -289,13 +296,25 @@ export function TravelRecordsView({ avenant, employee }: TravelRecordsViewProps)
                         </div>
                       </div>
 
-                      <button
-                        onClick={() => deleteRecord(record.id)}
-                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                        title="Supprimer"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+                      <div className="flex gap-1">
+                        <button
+                          onClick={() => {
+                            setEditingRecord(record);
+                            setShowForm(true);
+                          }}
+                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                          title="Modifier"
+                        >
+                          <Edit2 className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => deleteRecord(record.id)}
+                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          title="Supprimer"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -350,13 +369,25 @@ export function TravelRecordsView({ avenant, employee }: TravelRecordsViewProps)
                         </div>
                       </div>
 
-                      <button
-                        onClick={() => deleteRecord(record.id)}
-                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                        title="Supprimer"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+                      <div className="flex gap-1">
+                        <button
+                          onClick={() => {
+                            setEditingRecord(record);
+                            setShowForm(true);
+                          }}
+                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                          title="Modifier"
+                        >
+                          <Edit2 className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => deleteRecord(record.id)}
+                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          title="Supprimer"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -369,7 +400,11 @@ export function TravelRecordsView({ avenant, employee }: TravelRecordsViewProps)
       {showForm && (
         <TravelRecordForm
           avenantId={avenant.id}
-          onClose={() => setShowForm(false)}
+          record={editingRecord}
+          onClose={() => {
+            setShowForm(false);
+            setEditingRecord(null);
+          }}
           onSaved={loadRecords}
         />
       )}

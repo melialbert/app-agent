@@ -5,10 +5,11 @@ import { Plus, Edit2, Trash2, Users } from 'lucide-react';
 interface EmployeeListProps {
   onSelectEmployee: (employee: Employee | null) => void;
   onAddEmployee: () => void;
+  onEditEmployee: (employee: Employee) => void;
   selectedEmployeeId: string | null;
 }
 
-export function EmployeeList({ onSelectEmployee, onAddEmployee, selectedEmployeeId }: EmployeeListProps) {
+export function EmployeeList({ onSelectEmployee, onAddEmployee, onEditEmployee, selectedEmployeeId }: EmployeeListProps) {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -110,16 +111,28 @@ export function EmployeeList({ onSelectEmployee, onAddEmployee, selectedEmployee
                     <span>{employee.vehicle_horsepower} CV</span>
                   </div>
                 </div>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteEmployee(employee.id);
-                  }}
-                  className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                  title="Supprimer"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
+                <div className="flex gap-1">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onEditEmployee(employee);
+                    }}
+                    className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                    title="Modifier"
+                  >
+                    <Edit2 className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteEmployee(employee.id);
+                    }}
+                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                    title="Supprimer"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
             </div>
           ))

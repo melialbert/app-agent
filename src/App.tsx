@@ -10,6 +10,7 @@ function App() {
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
   const [selectedAvenant, setSelectedAvenant] = useState<Avenant | null>(null);
   const [showEmployeeForm, setShowEmployeeForm] = useState(false);
+  const [editingEmployee, setEditingEmployee] = useState<Employee | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
 
   function handleEmployeeSaved() {
@@ -45,7 +46,14 @@ function App() {
                 setSelectedEmployee(emp);
                 setSelectedAvenant(null);
               }}
-              onAddEmployee={() => setShowEmployeeForm(true)}
+              onAddEmployee={() => {
+                setEditingEmployee(null);
+                setShowEmployeeForm(true);
+              }}
+              onEditEmployee={(emp) => {
+                setEditingEmployee(emp);
+                setShowEmployeeForm(true);
+              }}
               selectedEmployeeId={selectedEmployee?.id || null}
             />
           </div>
@@ -66,7 +74,7 @@ function App() {
               <AvenantManager
                 employee={selectedEmployee}
                 onSelectAvenant={setSelectedAvenant}
-                selectedAvenantId={selectedAvenant?.id || null}
+                selectedAvenantId={null}
               />
             ) : (
               <TravelRecordsView
@@ -91,7 +99,11 @@ function App() {
 
       {showEmployeeForm && (
         <EmployeeForm
-          onClose={() => setShowEmployeeForm(false)}
+          employee={editingEmployee}
+          onClose={() => {
+            setShowEmployeeForm(false);
+            setEditingEmployee(null);
+          }}
           onSaved={handleEmployeeSaved}
         />
       )}

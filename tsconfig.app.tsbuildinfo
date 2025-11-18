@@ -1,0 +1,1 @@
+{"root":["./src/App.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/AvenantManager.tsx","./src/components/EmployeeForm.tsx","./src/components/EmployeeList.tsx","./src/components/TravelRecordForm.tsx","./src/components/TravelRecordsView.tsx","./src/lib/supabase.ts"],"version":"5.9.3"}

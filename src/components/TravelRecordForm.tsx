@@ -1,5 +1,5 @@
-import { useState, FormEvent } from 'react';
-import { supabase } from '../lib/supabase';
+import { useState, FormEvent, useEffect } from 'react';
+import { supabase, type TravelRecord, type RouteSegment } from '../lib/supabase';
 import { Plus, Trash2, Save, X } from 'lucide-react';
 
 interface RouteSegmentInput {
@@ -8,15 +8,20 @@ interface RouteSegmentInput {
   km: number;
 }
 
+interface TravelRecordWithSegments extends TravelRecord {
+  segments: RouteSegment[];
+}
+
 interface TravelRecordFormProps {
   avenantId: string;
+  record?: TravelRecordWithSegments | null;
   onClose: () => void;
   onSaved: () => void;
 }
 
 const DAYS_OF_WEEK = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
 
-export function TravelRecordForm({ avenantId, onClose, onSaved }: TravelRecordFormProps) {
+export function TravelRecordForm({ avenantId, record, onClose, onSaved }: TravelRecordFormProps) {
   const [travelDate, setTravelDate] = useState('');
   const [segments, setSegments] = useState<RouteSegmentInput[]>([
     { from: 'A', to: 'B', km: 0 },
@@ -25,6 +30,22 @@ export function TravelRecordForm({ avenantId, onClose, onSaved }: TravelRecordFo
   const [monthlyOccurrences, setMonthlyOccurrences] = useState(1);
   const [description, setDescription] = useState('');
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (record) {
+      setTravelDate(record.travel_date);
+      setIsPunctual(record.is_punctual);
+      setMonthlyOccurrences(record.monthly_occurrences);
+      setDescription(record.description || '');
+
+      const segmentsData = record.segments.map(seg => ({
+        from: seg.from_point,
+        to: seg.to_point,
+        km: seg.distance_km,
+      }));
+      setSegments(segmentsData.length > 0 ? segmentsData : [{ from: 'A', to: 'B', km: 0 }]);
+    }
+  }, [record]);
 
   function addSegment() {
     const lastSegment = segments[segments.length - 1];
@@ -58,25 +79,49 @@ export function TravelRecordForm({ avenantId, onClose, onSaved }: TravelRecordFo
       const route = segments.map(s => s.from);
       route.push(segments[segments.length - 1].to);
 
-      const { data: travelRecord, error: travelError } = await supabase
-        .from('travel_records')
-        .insert([{
-          avenant_id: avenantId,
-          travel_date: travelDate,
-          day_of_week: getDayOfWeek(travelDate),
-          route: route,
-          total_km: getTotalKm(),
-          is_punctual: isPunctual,
-          monthly_occurrences: isPunctual ? monthlyOccurrences : 0,
-          description: description,
-        }])
-        .select()
-        .single();
+      const travelData = {
+        travel_date: travelDate,
+        day_of_week: getDayOfWeek(travelDate),
+        route: route,
+        total_km: getTotalKm(),
+        is_punctual: isPunctual,
+        monthly_occurrences: isPunctual ? monthlyOccurrences : 0,
+        description: description,
+      };
 
-      if (travelError) throw travelError;
+      let travelRecordId: string;
+
+      if (record) {
+        const { error: updateError } = await supabase
+          .from('travel_records')
+          .update(travelData)
+          .eq('id', record.id);
+
+        if (updateError) throw updateError;
+        travelRecordId = record.id;
+
+        const { error: deleteSegmentsError } = await supabase
+          .from('route_segments')
+          .delete()
+          .eq('travel_record_id', record.id);
+
+        if (deleteSegmentsError) throw deleteSegmentsError;
+      } else {
+        const { data: travelRecord, error: insertError } = await supabase
+          .from('travel_records')
+          .insert([{
+            ...travelData,
+            avenant_id: avenantId,
+          }])
+          .select()
+          .single();
+
+        if (insertError) throw insertError;
+        travelRecordId = travelRecord.id;
+      }
 
       const segmentsToInsert = segments.map((seg, index) => ({
-        travel_record_id: travelRecord.id,
+        travel_record_id: travelRecordId,
         from_point: seg.from,
         to_point: seg.to,
         distance_km: seg.km,
@@ -103,7 +148,9 @@ export function TravelRecordForm({ avenantId, onClose, onSaved }: TravelRecordFo
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="sticky top-0 bg-white flex items-center justify-between p-4 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900">Nouveau déplacement</h2>
+          <h2 className="text-lg font-semibold text-gray-900">
+            {record ? 'Modifier le déplacement' : 'Nouveau déplacement'}
+          </h2>
           <button
             onClick={onClose}
             className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
