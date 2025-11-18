@@ -1,0 +1,7 @@
+// node modules et packages loc
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*

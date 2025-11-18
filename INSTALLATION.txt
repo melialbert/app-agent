@@ -1,0 +1,131 @@
+GUIDE D'INSTALLATION - REGISTRE DE DÉPLACEMENTS
+================================================
+
+Ce guide explique comment installer et utiliser l'application localement sur votre ordinateur.
+
+PRÉREQUIS
+---------
+1. Node.js (version 18 ou supérieure)
+   Télécharger depuis: https://nodejs.org/
+   Choisissez la version LTS (Long Term Support)
+
+ÉTAPES D'INSTALLATION
+--------------------
+
+1. TÉLÉCHARGER LE PROJET
+   - Copiez le dossier du projet sur votre ordinateur
+   - Notez l'emplacement du dossier
+
+2. OUVRIR UN TERMINAL
+
+   Sur Windows:
+   - Appuyez sur la touche Windows + R
+   - Tapez "cmd" et appuyez sur Entrée
+
+   Sur Mac:
+   - Ouvrez Spotlight (Cmd + Espace)
+   - Tapez "Terminal" et appuyez sur Entrée
+
+3. NAVIGUER VERS LE DOSSIER DU PROJET
+   Dans le terminal, tapez:
+   cd [chemin-vers-le-dossier]
+
+   Exemple:
+   cd C:\Users\VotreNom\Documents\registre-deplacements
+
+4. INSTALLER LES DÉPENDANCES
+   Dans le terminal, tapez:
+   npm install
+
+   Attendez que l'installation se termine (cela peut prendre quelques minutes)
+
+5. DÉMARRER L'APPLICATION
+   Dans le terminal, tapez:
+   npm run dev
+
+   L'application va démarrer et afficher une adresse comme:
+   http://localhost:5173
+
+6. OUVRIR L'APPLICATION
+   - Ouvrez votre navigateur web (Chrome, Firefox, Edge, Safari)
+   - Copiez l'adresse affichée dans le terminal
+   - Collez-la dans la barre d'adresse du navigateur
+   - Appuyez sur Entrée
+
+UTILISATION DE L'APPLICATION
+----------------------------
+
+1. AJOUTER UN EMPLOYÉ
+   - Cliquez sur "Ajouter" dans la section Employés
+   - Remplissez les informations (nom, prénom, adresse, véhicule)
+   - Cliquez sur "Enregistrer"
+
+2. CRÉER UN AVENANT (PÉRIODE)
+   - Sélectionnez un employé dans la liste
+   - Cliquez sur "Nouvel avenant"
+   - Indiquez les dates de début et fin de période
+   - Ajoutez une description (optionnel)
+   - Cliquez sur "Enregistrer"
+
+3. ENREGISTRER DES DÉPLACEMENTS
+
+   A. Déplacements récurrents (hebdomadaires):
+      - Sélectionnez un employé
+      - Cliquez sur l'avenant concerné
+      - Cliquez sur "Ajouter un déplacement"
+      - Indiquez la date
+      - Ajoutez les segments de trajet (A→B, B→C, etc.)
+      - Indiquez les kilomètres pour chaque segment
+      - Cliquez sur "Enregistrer"
+
+   B. Déplacements ponctuels mensuels (ex: 2ème mercredi - Basic Fit):
+      - Suivez les mêmes étapes que ci-dessus
+      - Cochez la case "Déplacement ponctuel (heures journalières mensuelles)"
+      - Indiquez le nombre de fois par mois (ex: 1 pour le 2ème mercredi)
+      - Ajoutez une description (ex: "2ème mercredi - Basic Fit")
+      - Ces kilomètres seront ajoutés directement à la mensualité
+
+4. CONSULTER LES STATISTIQUES
+   L'application affiche automatiquement:
+   - Le total de kilomètres par période
+   - La moyenne hebdomadaire (déplacements récurrents uniquement)
+   - Déplacements récurrents: (Moy. hebdo × 52 ÷ 12) km/mois
+   - Déplacements ponctuels: Total des km ponctuels/mois
+   - MENSUALISATION TOTALE: Somme des deux types de déplacements
+   - Les totaux par semaine
+
+5. EXPORTER LES DONNÉES
+   - Dans la vue des déplacements, cliquez sur "Exporter"
+   - Un fichier CSV sera téléchargé avec toutes les données
+
+ARRÊTER L'APPLICATION
+--------------------
+Dans le terminal, appuyez sur:
+Ctrl + C
+
+Confirmez en tapant "O" (Oui) si demandé
+
+REDÉMARRER L'APPLICATION
+-----------------------
+Répétez les étapes 3, 5 et 6 du guide d'installation
+
+SUPPORT
+-------
+En cas de problème:
+1. Vérifiez que Node.js est bien installé (tapez: node --version)
+2. Vérifiez que vous êtes dans le bon dossier
+3. Relancez npm install si nécessaire
+4. Redémarrez l'application
+
+BASE DE DONNÉES
+--------------
+Les données sont stockées dans Supabase (base de données en ligne).
+Elles sont sauvegardées automatiquement et accessibles depuis n'importe quel ordinateur
+qui utilise cette application.
+
+NOTES IMPORTANTES
+----------------
+- Gardez le terminal ouvert pendant l'utilisation de l'application
+- Ne fermez pas la fenêtre du terminal
+- Les données sont sauvegardées en temps réel dans la base de données
+- Vous pouvez utiliser l'application sur plusieurs ordinateurs simultanément
