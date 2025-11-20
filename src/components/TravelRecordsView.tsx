@@ -287,9 +287,9 @@ export function TravelRecordsView({ avenant, employee }: TravelRecordsViewProps)
                         <div className="space-y-1">
                           {record.segments.map(segment => (
                             <div key={segment.id} className="flex items-center gap-2 text-xs text-gray-600">
-                              <span className="w-8 text-center font-medium">{segment.from_point}</span>
-                              <span>→</span>
-                              <span className="w-8 text-center font-medium">{segment.to_point}</span>
+                              <span className="w-15 text-center font-medium">{segment.from_point}</span>
+                              <span> → </span>
+                              <span className="w-15 text-center font-medium">{segment.to_point}</span>
                               <span className="ml-2 text-gray-500">{segment.distance_km.toFixed(2)} km</span>
                             </div>
                           ))}
@@ -360,9 +360,9 @@ export function TravelRecordsView({ avenant, employee }: TravelRecordsViewProps)
                         <div className="space-y-1">
                           {record.segments.map(segment => (
                             <div key={segment.id} className="flex items-center gap-2 text-xs text-gray-600">
-                              <span className="w-8 text-center font-medium">{segment.from_point}</span>
+                              <span className="w-15 text-center font-medium">{segment.from_point}</span>
                               <span>→</span>
-                              <span className="w-8 text-center font-medium">{segment.to_point}</span>
+                              <span className="w-15 text-center font-medium">{segment.to_point}</span>
                               <span className="ml-2 text-gray-500">{segment.distance_km.toFixed(2)} km</span>
                             </div>
                           ))}

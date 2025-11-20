@@ -295,7 +295,7 @@ export function TravelRecordForm({ avenantId, record, onClose, onSaved }: Travel
                 Total: {getTotalKm().toFixed(2)} km
               </p>
               <p className="text-xs text-blue-700 mt-1">
-                Parcours: {segments.map(s => s.from).join(' → ')} → {segments[segments.length - 1]?.to}
+                Parcours: {segments.map(s => s.from).join(' → ')}   →   {segments[segments.length - 1]?.to}
               </p>
             </div>
           </div>
