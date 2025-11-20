@@ -6,7 +6,11 @@ interface AvenantWithEmployee extends Avenant {
   employee: Employee;
 }
 
-export function AllAvenantsView() {
+interface AllAvenantsViewProps {
+  onSelectAvenant?: (avenant: Avenant, employee: Employee) => void;
+}
+
+export function AllAvenantsView({ onSelectAvenant }: AllAvenantsViewProps) {
   const [avenants, setAvenants] = useState<AvenantWithEmployee[]>([]);
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
@@ -147,7 +151,8 @@ export function AllAvenantsView() {
           filteredAvenants.map((avenant) => (
             <div
               key={avenant.id}
-              className="p-4 hover:bg-gray-50 transition-colors"
+              className="p-4 hover:bg-blue-50 transition-colors cursor-pointer border-l-4 border-transparent hover:border-blue-500"
+              onClick={() => onSelectAvenant?.(avenant, avenant.employee)}
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">

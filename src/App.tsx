@@ -72,7 +72,32 @@ function App() {
 
       <main className="max-w-7xl mx-auto px-4 py-6">
         {view === 'all-avenants' ? (
-          <AllAvenantsView />
+          selectedAvenant && selectedEmployee ? (
+            <div>
+              <div className="mb-4">
+                <button
+                  onClick={() => {
+                    setSelectedAvenant(null);
+                    setSelectedEmployee(null);
+                  }}
+                  className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                >
+                  ← Retour à tous les avenants
+                </button>
+              </div>
+              <TravelRecordsView
+                avenant={selectedAvenant}
+                employee={selectedEmployee}
+              />
+            </div>
+          ) : (
+            <AllAvenantsView
+              onSelectAvenant={(avenant, employee) => {
+                setSelectedAvenant(avenant);
+                setSelectedEmployee(employee);
+              }}
+            />
+          )
         ) : (
           <div className="grid grid-cols-12 gap-6">
             <div className="col-span-3">
