@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Car, List } from 'lucide-react';
+import { List } from 'lucide-react';
 import { EmployeeList } from './components/EmployeeList';
 import { EmployeeForm } from './components/EmployeeForm';
 import { AvenantManager } from './components/AvenantManager';
@@ -127,7 +127,7 @@ function App() {
             <div className="col-span-9">
               {!selectedEmployee ? (
                 <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-                  <Car className="w-16 h-16 mx-auto text-gray-400 mb-4" />
+                  <img src="/logo.svg" alt="Logo" className="w-24 h-24 mx-auto mb-4" />
                   <h2 className="text-xl font-semibold text-gray-900 mb-2">
                     Bienvenue dans le Registre de Déplacements
                   </h2>
