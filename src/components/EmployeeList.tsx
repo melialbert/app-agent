@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase, type Employee } from '../lib/supabase';
-import { Plus, Edit2, Trash2, Users } from 'lucide-react';
+import { Plus, Edit2, Trash2, Users, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface EmployeeListProps {
   onSelectEmployee: (employee: Employee | null) => void;
@@ -12,6 +12,8 @@ interface EmployeeListProps {
 export function EmployeeList({ onSelectEmployee, onAddEmployee, onEditEmployee, selectedEmployeeId }: EmployeeListProps) {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showAll, setShowAll] = useState(false);
+  const INITIAL_DISPLAY_COUNT = 3;
 
   useEffect(() => {
     loadEmployees();
@@ -92,7 +94,7 @@ export function EmployeeList({ onSelectEmployee, onAddEmployee, onEditEmployee, 
             </button>
           </div>
         ) : (
-          employees.map((employee) => (
+          (showAll ? employees : employees.slice(0, INITIAL_DISPLAY_COUNT)).map((employee) => (
             <div
               key={employee.id}
               className={`p-4 hover:bg-gray-50 transition-colors cursor-pointer ${
@@ -138,6 +140,27 @@ export function EmployeeList({ onSelectEmployee, onAddEmployee, onEditEmployee, 
           ))
         )}
       </div>
+
+      {employees.length > INITIAL_DISPLAY_COUNT && (
+        <div className="p-3 border-t border-gray-200 bg-gray-50">
+          <button
+            onClick={() => setShowAll(!showAll)}
+            className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+          >
+            {showAll ? (
+              <>
+                <ChevronUp className="w-4 h-4" />
+                Voir moins
+              </>
+            ) : (
+              <>
+                <ChevronDown className="w-4 h-4" />
+                Voir plus ({employees.length - INITIAL_DISPLAY_COUNT})
+              </>
+            )}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
