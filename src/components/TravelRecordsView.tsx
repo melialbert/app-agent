@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { supabase, type TravelRecord, type RouteSegment, type Avenant, type Employee } from '../lib/supabase';
 import { Plus, Trash2, Calendar, TrendingUp, FileDown, Edit2 } from 'lucide-react';
 import { TravelRecordForm } from './TravelRecordForm';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 interface TravelRecordsViewProps {
   avenant: Avenant;
@@ -109,38 +111,113 @@ export function TravelRecordsView({ avenant, employee }: TravelRecordsViewProps)
     };
   }
 
-  function exportToCSV() {
-    const headers = ['Date', 'Jour', 'Type', 'Parcours', 'Total KM', 'Fréquence', 'KM mensuel', 'Détail segments'];
-    const rows = records.map(record => [
-      new Date(record.travel_date).toLocaleDateString('fr-FR'),
-      record.day_of_week,
-      record.is_punctual ? 'Ponctuel' : 'Récurrent',
-      (record.route as string[]).join(' → '),
-      record.total_km.toFixed(2),
-      record.is_punctual ? `${record.monthly_occurrences}x/mois` : 'Hebdo',
-      record.is_punctual ? (record.total_km * record.monthly_occurrences).toFixed(2) : '',
-      record.segments.map(s => `${s.from_point}→${s.to_point}: ${s.distance_km}km`).join('; '),
-    ]);
+  function exportToPDF() {
+    const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
 
-    const csv = [
-      `Employé: ${employee.first_name} ${employee.last_name}`,
-      `Adresse: ${employee.address}`,
-      `Véhicule: ${employee.vehicle_brand} (${employee.vehicle_horsepower} CV)`,
-      `Période: ${new Date(avenant.period_start).toLocaleDateString('fr-FR')} - ${new Date(avenant.period_end).toLocaleDateString('fr-FR')}`,
-      '',
-      headers.join(','),
-      ...rows.map(row => row.join(',')),
-      '',
-      `Déplacements récurrents: ${recurringMonthlyKm.toFixed(2)} km/mois`,
-      `Déplacements ponctuels: ${punctualStats.totalKm.toFixed(2)} km/mois`,
-      `MENSUALISATION TOTALE: ${totalMonthlyKm.toFixed(2)} km/mois`,
-    ].join('\n');
+    doc.setFontSize(18);
+    doc.text('Registre des Déplacements Professionnels', pageWidth / 2, 20, { align: 'center' });
 
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = `deplacements_${employee.last_name}_${new Date().toISOString().split('T')[0]}.csv`;
-    link.click();
+    doc.setFontSize(11);
+    let yPos = 35;
+    doc.text(`Employé: ${employee.first_name} ${employee.last_name}`, 14, yPos);
+    yPos += 7;
+    doc.text(`Adresse: ${employee.address}`, 14, yPos);
+    yPos += 7;
+    doc.text(`Véhicule: ${employee.vehicle_brand} (${employee.vehicle_horsepower} CV)`, 14, yPos);
+    yPos += 7;
+    doc.text(`Période: ${new Date(avenant.period_start).toLocaleDateString('fr-FR')} - ${new Date(avenant.period_end).toLocaleDateString('fr-FR')}`, 14, yPos);
+    yPos += 10;
+
+    if (punctualStats.records.length > 0) {
+      doc.setFontSize(13);
+      doc.setTextColor(184, 134, 11);
+      doc.text('Déplacements Ponctuels Mensuels', 14, yPos);
+      yPos += 5;
+
+      const punctualData = punctualStats.records.map(record => [
+        new Date(record.travel_date).toLocaleDateString('fr-FR'),
+        record.day_of_week,
+        (record.route as string[]).join(' → '),
+        record.total_km.toFixed(2),
+        record.monthly_occurrences.toString(),
+        (record.total_km * record.monthly_occurrences).toFixed(2),
+      ]);
+
+      autoTable(doc, {
+        startY: yPos,
+        head: [['Date', 'Jour', 'Parcours', 'KM', 'Fréq.', 'KM/mois']],
+        body: punctualData,
+        theme: 'grid',
+        styles: { fontSize: 9 },
+        headStyles: { fillColor: [255, 237, 213], textColor: [120, 53, 15] },
+      });
+
+      yPos = (doc as any).lastAutoTable.finalY + 10;
+    }
+
+    if (recurringRecords.length > 0) {
+      weeklyStats.forEach((week) => {
+        if (yPos > 250) {
+          doc.addPage();
+          yPos = 20;
+        }
+
+        doc.setFontSize(13);
+        doc.setTextColor(37, 99, 235);
+        doc.text(`Semaine du ${new Date(week.weekStart).toLocaleDateString('fr-FR')}`, 14, yPos);
+        yPos += 5;
+
+        const weekData = week.records.map(record => [
+          new Date(record.travel_date).toLocaleDateString('fr-FR'),
+          record.day_of_week,
+          (record.route as string[]).join(' → '),
+          record.total_km.toFixed(2),
+        ]);
+
+        autoTable(doc, {
+          startY: yPos,
+          head: [['Date', 'Jour', 'Parcours', 'Total KM']],
+          body: weekData,
+          theme: 'grid',
+          styles: { fontSize: 9 },
+          headStyles: { fillColor: [219, 234, 254], textColor: [30, 64, 175] },
+        });
+
+        yPos = (doc as any).lastAutoTable.finalY + 10;
+      });
+    }
+
+    if (yPos > 240) {
+      doc.addPage();
+      yPos = 20;
+    }
+
+    doc.setFontSize(12);
+    doc.setTextColor(0, 0, 0);
+    yPos += 5;
+    doc.text('Résumé Mensuel', 14, yPos);
+    yPos += 10;
+
+    const summaryData = [
+      ['Déplacements récurrents', `${recurringMonthlyKm.toFixed(2)} km/mois`],
+      ['Déplacements ponctuels', `${punctualStats.totalKm.toFixed(2)} km/mois`],
+      ['MENSUALISATION TOTALE', `${totalMonthlyKm.toFixed(2)} km/mois`],
+    ];
+
+    autoTable(doc, {
+      startY: yPos,
+      body: summaryData,
+      theme: 'grid',
+      styles: { fontSize: 11, fontStyle: 'bold' },
+      columnStyles: {
+        0: { cellWidth: 80 },
+        1: { cellWidth: 80, halign: 'right' },
+      },
+    });
+
+    const filename = `deplacements_${employee.last_name}_${new Date().toISOString().split('T')[0]}.pdf`;
+    doc.save(filename);
   }
 
   const weeklyStats = calculateWeeklyStats();
@@ -180,12 +257,12 @@ export function TravelRecordsView({ avenant, employee }: TravelRecordsViewProps)
             </div>
             <div className="flex gap-2">
               <button
-                onClick={exportToCSV}
+                onClick={exportToPDF}
                 className="flex items-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
-                title="Exporter en CSV"
+                title="Exporter en PDF"
               >
                 <FileDown className="w-4 h-4" />
-                Exporter
+                Exporter PDF
               </button>
               <button
                 onClick={() => {
