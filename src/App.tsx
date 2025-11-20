@@ -27,12 +27,17 @@ function App() {
             <div className="flex items-center gap-4">
               <img
                 src="/logo.svg"
-                alt="Dymatic Employee Mileage"
+                alt="Logo"
                 className="h-16 w-16"
+              />
+              <img
+                src="/image.png"
+                alt="Pro Nettoyage"
+                className="h-16 w-auto"
               />
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">
-                  Dymatic Employee Mileage
+                  Registre de Déplacements
                 </h1>
                 <p className="text-sm text-gray-600">
                   Suivi des déplacements professionnels en véhicule personnel
