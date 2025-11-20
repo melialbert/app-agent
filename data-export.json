@@ -1,0 +1,228 @@
+{
+  "exportDate": "2025-11-20T13:36:08.263Z",
+  "employees": [
+    {
+      "id": "f218a9a3-a811-46f5-82f2-5b3d762661f1",
+      "first_name": "Leda Jullyana",
+      "last_name": "GOMES",
+      "address": "13 Rue Molitor 54000, Nancy",
+      "vehicle_brand": "Golf6",
+      "vehicle_horsepower": 6,
+      "created_at": "2025-11-18T20:57:21.481705+00:00"
+    }
+  ],
+  "avenants": [
+    {
+      "id": "2038ca75-0b21-4cb4-ac64-74537ab1dd40",
+      "employee_id": "f218a9a3-a811-46f5-82f2-5b3d762661f1",
+      "period_start": "2024-01-01",
+      "period_end": "2025-08-31",
+      "description": "Avenant N °1",
+      "created_at": "2025-11-18T20:59:51.521757+00:00"
+    }
+  ],
+  "travel_records": [
+    {
+      "id": "bef15c92-c97b-4915-8df8-e32574940b12",
+      "avenant_id": "2038ca75-0b21-4cb4-ac64-74537ab1dd40",
+      "travel_date": "2024-01-01",
+      "day_of_week": "Lundi",
+      "route": [
+        "Home",
+        "Amazone",
+        "Home",
+        "Selard cardio",
+        "SCM J.J",
+        "Home"
+      ],
+      "total_km": 12.9,
+      "created_at": "2025-11-18T21:47:03.779989+00:00",
+      "is_punctual": false,
+      "monthly_occurrences": 0,
+      "description": ""
+    },
+    {
+      "id": "112591c3-204e-4188-b3aa-868f3d31d96f",
+      "avenant_id": "2038ca75-0b21-4cb4-ac64-74537ab1dd40",
+      "travel_date": "2024-01-02",
+      "day_of_week": "Mardi",
+      "route": [
+        "Home",
+        "SCM J.J",
+        "Home"
+      ],
+      "total_km": 3.5,
+      "created_at": "2025-11-18T21:51:06.346106+00:00",
+      "is_punctual": false,
+      "monthly_occurrences": 0,
+      "description": ""
+    },
+    {
+      "id": "17baace2-71c2-49ac-8553-2303482b5fec",
+      "avenant_id": "2038ca75-0b21-4cb4-ac64-74537ab1dd40",
+      "travel_date": "2024-01-03",
+      "day_of_week": "Mercredi",
+      "route": [
+        "Home",
+        "SCP Graillot",
+        "Home"
+      ],
+      "total_km": 14.6,
+      "created_at": "2025-11-18T21:52:36.210961+00:00",
+      "is_punctual": false,
+      "monthly_occurrences": 0,
+      "description": ""
+    },
+    {
+      "id": "258acfd4-dd7c-4041-9e01-cb15b50c3423",
+      "avenant_id": "2038ca75-0b21-4cb4-ac64-74537ab1dd40",
+      "travel_date": "2024-01-04",
+      "day_of_week": "Jeudi",
+      "route": [
+        "Home",
+        "SDC 42 A.F",
+        "Home"
+      ],
+      "total_km": 6.8,
+      "created_at": "2025-11-18T21:56:03.651063+00:00",
+      "is_punctual": true,
+      "monthly_occurrences": 2,
+      "description": "Petit contrat"
+    },
+    {
+      "id": "7e052a0f-aefa-4660-b7ac-0ef84d4e4471",
+      "avenant_id": "2038ca75-0b21-4cb4-ac64-74537ab1dd40",
+      "travel_date": "2024-01-05",
+      "day_of_week": "Vendredi",
+      "route": [
+        "Home",
+        "SCM J.J",
+        "Home"
+      ],
+      "total_km": 3.5,
+      "created_at": "2025-11-18T21:57:21.873566+00:00",
+      "is_punctual": false,
+      "monthly_occurrences": 0,
+      "description": ""
+    }
+  ],
+  "route_segments": [
+    {
+      "id": "c3cc7125-f5ed-4cb8-9ad9-6f59e2cee3c5",
+      "travel_record_id": "112591c3-204e-4188-b3aa-868f3d31d96f",
+      "from_point": "Home",
+      "to_point": "SCM J.J",
+      "distance_km": 1.9,
+      "sequence_order": 0,
+      "created_at": "2025-11-18T21:51:06.582922+00:00"
+    },
+    {
+      "id": "a2dfe1f2-1d1d-48a0-b139-a3d7669502c4",
+      "travel_record_id": "bef15c92-c97b-4915-8df8-e32574940b12",
+      "from_point": "Home",
+      "to_point": "Amazone",
+      "distance_km": 2.9,
+      "sequence_order": 0,
+      "created_at": "2025-11-18T21:47:03.951366+00:00"
+    },
+    {
+      "id": "a3538d5e-f7df-425a-ac43-8429d4db1b98",
+      "travel_record_id": "17baace2-71c2-49ac-8553-2303482b5fec",
+      "from_point": "Home",
+      "to_point": "SCP Graillot",
+      "distance_km": 7.3,
+      "sequence_order": 0,
+      "created_at": "2025-11-18T21:52:36.417304+00:00"
+    },
+    {
+      "id": "cca30825-230a-4f18-95b2-fa617b27c53d",
+      "travel_record_id": "7e052a0f-aefa-4660-b7ac-0ef84d4e4471",
+      "from_point": "Home",
+      "to_point": "SCM J.J",
+      "distance_km": 1.9,
+      "sequence_order": 0,
+      "created_at": "2025-11-18T21:57:21.962054+00:00"
+    },
+    {
+      "id": "69384ab8-7c35-4987-965a-1bccba0e2df5",
+      "travel_record_id": "258acfd4-dd7c-4041-9e01-cb15b50c3423",
+      "from_point": "Home",
+      "to_point": "SDC 42 A.F",
+      "distance_km": 3.4,
+      "sequence_order": 0,
+      "created_at": "2025-11-18T21:56:03.821786+00:00"
+    },
+    {
+      "id": "692a4c6c-3d9e-4914-a149-12ef86953949",
+      "travel_record_id": "7e052a0f-aefa-4660-b7ac-0ef84d4e4471",
+      "from_point": "SCM J.J",
+      "to_point": "Home",
+      "distance_km": 1.6,
+      "sequence_order": 1,
+      "created_at": "2025-11-18T21:57:21.962054+00:00"
+    },
+    {
+      "id": "4701b490-5042-41ee-98e2-8d74cb06075d",
+      "travel_record_id": "bef15c92-c97b-4915-8df8-e32574940b12",
+      "from_point": "Amazone",
+      "to_point": "Home",
+      "distance_km": 2.9,
+      "sequence_order": 1,
+      "created_at": "2025-11-18T21:47:03.951366+00:00"
+    },
+    {
+      "id": "374c81df-dada-4941-bf47-f503fc28d192",
+      "travel_record_id": "112591c3-204e-4188-b3aa-868f3d31d96f",
+      "from_point": "SCM J.J",
+      "to_point": "Home",
+      "distance_km": 1.6,
+      "sequence_order": 1,
+      "created_at": "2025-11-18T21:51:06.582922+00:00"
+    },
+    {
+      "id": "3007555b-872a-4245-8269-f5ad58eb9148",
+      "travel_record_id": "17baace2-71c2-49ac-8553-2303482b5fec",
+      "from_point": "SCP Graillot",
+      "to_point": "Home",
+      "distance_km": 7.3,
+      "sequence_order": 1,
+      "created_at": "2025-11-18T21:52:36.417304+00:00"
+    },
+    {
+      "id": "a8e5d62a-e845-474b-8750-c3ab0a4bca30",
+      "travel_record_id": "258acfd4-dd7c-4041-9e01-cb15b50c3423",
+      "from_point": "SDC 42 A.F",
+      "to_point": "Home",
+      "distance_km": 3.4,
+      "sequence_order": 1,
+      "created_at": "2025-11-18T21:56:03.821786+00:00"
+    },
+    {
+      "id": "bd55c25f-b08a-4c57-9782-15b371002dfd",
+      "travel_record_id": "bef15c92-c97b-4915-8df8-e32574940b12",
+      "from_point": "Home",
+      "to_point": "Selard cardio",
+      "distance_km": 2.2,
+      "sequence_order": 2,
+      "created_at": "2025-11-18T21:47:03.951366+00:00"
+    },
+    {
+      "id": "6a79f83c-0d58-46aa-a545-f1d91427c483",
+      "travel_record_id": "bef15c92-c97b-4915-8df8-e32574940b12",
+      "from_point": "Selard cardio",
+      "to_point": "SCM J.J",
+      "distance_km": 3.3,
+      "sequence_order": 3,
+      "created_at": "2025-11-18T21:47:03.951366+00:00"
+    },
+    {
+      "id": "90667c8d-cca4-4c85-aacc-87da39c5c1fb",
+      "travel_record_id": "bef15c92-c97b-4915-8df8-e32574940b12",
+      "from_point": "SCM J.J",
+      "to_point": "Home",
+      "distance_km": 1.6,
+      "sequence_order": 4,
+      "created_at": "2025-11-18T21:47:03.951366+00:00"
+    }
+  ]
+}
