@@ -31,7 +31,7 @@ async function importData() {
       console.log('📥 Import des employés...');
       const { error: empError } = await supabase
         .from('employees')
-        .insert(data.employees);
+        .upsert(data.employees, { onConflict: 'id' });
       if (empError) throw empError;
       console.log('✅ Employés importés\n');
     }
@@ -40,7 +40,7 @@ async function importData() {
       console.log('📥 Import des avenants...');
       const { error: aveError } = await supabase
         .from('avenants')
-        .insert(data.avenants);
+        .upsert(data.avenants, { onConflict: 'id' });
       if (aveError) throw aveError;
       console.log('✅ Avenants importés\n');
     }
@@ -49,7 +49,7 @@ async function importData() {
       console.log('📥 Import des déplacements...');
       const { error: travelError } = await supabase
         .from('travel_records')
-        .insert(data.travel_records);
+        .upsert(data.travel_records, { onConflict: 'id' });
       if (travelError) throw travelError;
       console.log('✅ Déplacements importés\n');
     }
@@ -58,7 +58,7 @@ async function importData() {
       console.log('📥 Import des segments...');
       const { error: segError } = await supabase
         .from('route_segments')
-        .insert(data.route_segments);
+        .upsert(data.route_segments, { onConflict: 'id' });
       if (segError) throw segError;
       console.log('✅ Segments importés\n');
     }
