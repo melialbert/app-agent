@@ -72,7 +72,7 @@
     },
     "linux": {
       "target": ["AppImage", "deb"],
-      "icon": "public/logo-depl.png",
+      "icon": "public/icon-512x512.png",
       "category": "Office"
     },
     "nsis": {
