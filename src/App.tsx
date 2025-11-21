@@ -26,7 +26,7 @@ function App() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <img
-                src="/image.png"
+                src="./image.png"
                 alt="Pro Nettoyage"
                 className="h-16 w-auto"
               />
@@ -120,7 +120,7 @@ function App() {
             <div className="col-span-9">
               {!selectedEmployee ? (
                 <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-                  <img src="/logo-dep.png" alt="Logo" className="w-24  h-24 mx-auto mb-4" />
+                  <img src="./logo-dep.png" alt="Logo" className="w-24  h-24 mx-auto mb-4" />
                   <h2 className="text-xl font-semibold text-gray-900 mb-2">
                     Bienvenue dans le Registre de Déplacements
                   </h2>
