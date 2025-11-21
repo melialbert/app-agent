@@ -2,6 +2,10 @@
   "name": "registre-deplacements",
   "private": true,
   "version": "1.0.0",
+  "author": {
+    "name": "Votre Entreprise",
+    "email": "contact@votreentreprise.fr"
+  },
   "type": "module",
   "main": "electron.cjs",
   "scripts": {
